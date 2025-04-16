@@ -1,0 +1,8 @@
+.odds-div{
+    display: flex;
+    flex-direction: column;
+    width: calc(40vw - 10px);
+}
+/* .total-stake-div{
+    
+} */
