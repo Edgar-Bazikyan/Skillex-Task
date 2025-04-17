@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react"
 import styles from "./BetsCalculator.module.css"
 import OddsList from "../OddsList/OddsList";
+import BetsResultTable from "../BetsResultTable/BetsResultTable";
+
 
 const BetsCalculator = () => {
     const [selectedOption, setSelectedOption] = useState("");
     const [result, setResult] = useState(0);
     const [objC, setObjC] = useState({n: 3, k: 2});
     const [combArray, setCombArray] = useState([])
+    const [totalStake, setTotalStake] = useState(0)
+    const [oddsObject, setOddsObj] = useState({})
+    const [oddsStatus, setOddsStatus] = useState({})
 
     useEffect(() => {
         setResult(getCombinations(new Array(objC.n).fill(0).map((_, i) => i + 1), objC.k).length)
@@ -64,22 +69,34 @@ const BetsCalculator = () => {
     // }
     return(
         <div className={styles['main-div']}>
-            <div className={styles['left-div']}>
-                <div className={styles['select-div']}>
-                    <label htmlFor="select">System</label>
-                    <select id="select" className={styles['select']} value={selectedOption} onChange={handleChange}>
-                        <option value="2/3">2 from 3</option>
-                        <option value="3/4">3 from 4</option>
-                        <option value="2/4">2 from 4</option>
-                        {/* map a linielu */}
-                    </select>
+            <div className={styles['upper-div']}>
+                <div className={styles['left-div']}>
+                    <div className={styles['select-div']}>
+                        <label htmlFor="select">System</label>
+                        <select id="select" className={styles['select']} value={selectedOption} onChange={handleChange}>
+                            <option value="2/3">2 from 3</option>
+                            <option value="3/4">3 from 4</option>
+                            <option value="2/4">2 from 4</option>
+                            {/* map a linielu */}
+                        </select>
+                    </div>
+                    <div className={styles['select-div']}>
+                        A System {objC.k} from {objC.n} + undefined contains {result} combinations
+                    </div>
                 </div>
-                <div className={styles['select-div']}>
-                    A System {objC.k} from {objC.n} + undefined contains {result} combinations
+                <div className={styles['right-div']}>
+                    <OddsList   odds={objC.n} 
+                                totalStake={totalStake}  
+                                setTotalStake={setTotalStake}
+                                oddsObject={oddsObject}
+                                setOddsObj={setOddsObj}
+                                oddsStatus={oddsStatus}
+                                setOddsStatus={setOddsStatus}
+                                />
                 </div>
             </div>
-            <div className={styles['right-div']}>
-                <OddsList  odds={objC.k}/>
+            <div className={styles['lower-div']}>
+                <BetsResultTable data={combArray} oddsObject={oddsObject} oddsStatus={oddsStatus} totalStack={totalStake} />
             </div>
         </div>
     )

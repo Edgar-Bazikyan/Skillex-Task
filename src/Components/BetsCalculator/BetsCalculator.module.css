@@ -1,8 +1,9 @@
 .main-div{
     width: 80vw;
-    height: 40vh;
     border: 1px solid black;
     border-radius: 10px;
+}
+.upper-div{
     display: flex;
     justify-content: space-between;
 }

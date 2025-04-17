@@ -1,44 +1,58 @@
-import React, {useState, useMemo, use, useEffect} from "react"
+import React, {useState, useEffect} from "react"
 import styles from "./OddsList.module.css"
 
 
 
-const OddsList = ({odds}) => {
+const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, oddsStatus, setOddsStatus}) => {
 
-    const [totalStake, setTotalStake] = useState(0)
-    const [oddsObject, setOddsObj] = useState({})
+    
     const arr = new Array(odds).fill(0)
     
     useEffect(() => {
-        const oddsObj = {}
+        const oddsStatus = {}
+        const oddsObject = {}
         arr.forEach((_, index) => {
-            oddsObj[index + 1] = 'Correct'
+            oddsStatus[index + 1] = 'Correct'
+            oddsObject[`odds${index + 1}`] = 2
+
         })
-        setOddsObj(oddsObj)
+        setOddsStatus(oddsStatus)
+        setOddsObj(oddsObject)
     }, [odds])
     const changeHandler = (event) => {
-        const value = event.target.value
-        setTotalStake(value)
+        const {name ,value} = event.target
+        if(name === 'stack'){
+           setTotalStake(value)
+        }else {
+            setOddsObj((prevState) => ({
+                ...prevState,
+                [name]: value,
+            }))
+        }
     }
     const handleRadioChange = (event) => {
         const { name, value } = event.target
-        setOddsObj((prevState) => ({
+        setOddsStatus((prevState) => ({
             ...prevState,
             [name]: value,
         }))
     }
-
-console.log('oddsObject', oddsObject)
+    console.log(oddsObject)
     return (
         <div className={styles['odds-div']}>
             <div className={styles['total-stake-div']}>
                 <label htmlFor="stack">Total Stack</label>
-                <input type="text" id="stack" value={totalStake} onChange={changeHandler} />
+                <input type="text" id="stack" name="stack" value={totalStake} onChange={changeHandler} />
             </div>
             <div className={styles['odds-list']}>
                 {arr.map((item, index) => (
                     <div key={index} className={styles['odds-item']}>
-                        odds {index + 1}: 
+                        odds {index + 1}:
+                        <input type="text"
+                        name={`odds${index + 1}`}
+                        value={oddsObject[`odds${index + 1}`]}
+                        onChange={changeHandler}
+                        /> 
                         <label>
                             Correct
                         </label>
@@ -46,7 +60,7 @@ console.log('oddsObject', oddsObject)
                         type="radio"
                         name={index + 1}
                         value="Correct"
-                        checked={oddsObject[`${index + 1}`] === 'Correct'}
+                        checked={oddsStatus[`${index + 1}`] === 'Correct'}
                         onChange={handleRadioChange}
                         />
                         <label>
@@ -56,7 +70,7 @@ console.log('oddsObject', oddsObject)
                         type="radio"
                         name={index + 1}
                         value="Incorrect"
-                        checked={oddsObject[`${index + 1}`] === 'Incorrect'}
+                        checked={oddsStatus[`${index + 1}`] === 'Incorrect'}
                         onChange={handleRadioChange}
                         />
                         <label>
@@ -66,14 +80,14 @@ console.log('oddsObject', oddsObject)
                         type="radio"
                         name={index + 1}
                         value="Void"
-                        checked={oddsObject[`${index + 1}`] === 'Void'}
+                        checked={oddsStatus[`${index + 1}`] === 'Void'}
                         onChange={handleRadioChange}
                         />
                     </div>
                 ))}
 
             </div>
-            <button className={styles['btn']}>Compute</button>
+            <button className={styles['btn']} >Compute</button>
         </div>
     )
 }
