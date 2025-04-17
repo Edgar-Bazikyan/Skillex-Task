@@ -9,15 +9,19 @@ const BetsCalculator = () => {
     const [result, setResult] = useState(0);
     const [objC, setObjC] = useState({n: 3, k: 2});
     const [combArray, setCombArray] = useState([])
-    const [totalStake, setTotalStake] = useState(0)
+    const [totalStake, setTotalStake] = useState(100)
     const [oddsObject, setOddsObj] = useState({})
     const [oddsStatus, setOddsStatus] = useState({})
+    const [allWinings, setAllWinings] = useState(0)
 
     useEffect(() => {
         setResult(getCombinations(new Array(objC.n).fill(0).map((_, i) => i + 1), objC.k).length)
         setCombArray(getCombinations(new Array(objC.n).fill(0).map((_, i) => i + 1), objC.k))
     }, [selectedOption])
-
+    useEffect(() => {
+        setAllWinings(0)
+        calcAllWinings()
+    },[selectedOption, totalStake, oddsStatus, oddsObject])
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
@@ -27,11 +31,28 @@ const BetsCalculator = () => {
         setObjC({...objC ,n , k})
         
       };
+
+    const calcAllWinings = () => {
+        combArray.map(item => {
+            let result = 1
+            for(let i of Object.values(item)){
+                if(oddsStatus[i] === 'Correct'){
+                    result *= oddsObject[`odds${i}`]
+                }else if(oddsStatus[i] === 'Incorrect'){
+                    result *= 0
+                }else{
+                    result *= 1
+                }
+            }
+            
+            setAllWinings(prev => prev + (Number((result * (totalStake / combArray.length)).toFixed(2))))
+        })
+    }
     
-      function getCombinations(arr, k) {
+      const getCombinations = (arr, k) => {
         const result = []
       
-        function combine(start, arrayK) {
+        const combine = (start, arrayK) => {
           if (arrayK.length === k) {
             const obj = {};
             arrayK.forEach((val, index) => {
@@ -49,7 +70,6 @@ const BetsCalculator = () => {
         combine(0, [])
         return result
     }
-    console.log('result',combArray)
     // const factorial = (n) => {
     //     if (n < 0) {
     //         return "Undefined";
@@ -96,7 +116,7 @@ const BetsCalculator = () => {
                 </div>
             </div>
             <div className={styles['lower-div']}>
-                <BetsResultTable data={combArray} oddsObject={oddsObject} oddsStatus={oddsStatus} totalStack={totalStake} />
+                <BetsResultTable data={combArray} oddsObject={oddsObject} oddsStatus={oddsStatus} totalStake={totalStake} allWinings={allWinings} />
             </div>
         </div>
     )

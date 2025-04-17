@@ -27,4 +27,13 @@ table {
     display: flex;
     justify-content: space-between;
   }
+  .Correct{
+    color: black;
+  }
+  .Incorrect{
+    color: #ee0000;
+  }
+  .Void{
+    color: #FFB200;
+  }
   

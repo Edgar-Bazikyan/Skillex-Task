@@ -5,7 +5,7 @@ import styles from "./OddsList.module.css"
 
 const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, oddsStatus, setOddsStatus}) => {
 
-    
+    console.log(oddsObject)
     const arr = new Array(odds).fill(0)
     
     useEffect(() => {
@@ -37,7 +37,6 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
             [name]: value,
         }))
     }
-    console.log(oddsObject)
     return (
         <div className={styles['odds-div']}>
             <div className={styles['total-stake-div']}>
@@ -50,7 +49,7 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
                         odds {index + 1}:
                         <input type="text"
                         name={`odds${index + 1}`}
-                        value={oddsObject[`odds${index + 1}`]}
+                        value={oddsObject[`odds${index + 1}`] || ''}
                         onChange={changeHandler}
                         /> 
                         <label>
@@ -87,7 +86,6 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
                 ))}
 
             </div>
-            <button className={styles['btn']} >Compute</button>
         </div>
     )
 }
