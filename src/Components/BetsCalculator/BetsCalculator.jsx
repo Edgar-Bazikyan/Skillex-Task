@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import styles from "./BetsCalculator.module.css"
 import OddsList from "../OddsList/OddsList";
 import BetsResultTable from "../BetsResultTable/BetsResultTable";
-
+import { systemOptions } from "./System";
 
 const BetsCalculator = () => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -94,10 +94,11 @@ const BetsCalculator = () => {
                     <div className={styles['select-div']}>
                         <label htmlFor="select">System</label>
                         <select id="select" className={styles['select']} value={selectedOption} onChange={handleChange}>
-                            <option value="2/3">2 from 3</option>
-                            <option value="3/4">3 from 4</option>
-                            <option value="2/4">2 from 4</option>
-                            {/* map a linielu */}
+                            {systemOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.text}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className={styles['select-div']}>

@@ -61,7 +61,7 @@ const BetsResultTable = ({data, oddsObject, oddsStatus, totalStake, allWinings})
                 </tbody>
             </table>
             <div>
-                <p>Winings : {allWinings} </p>
+                <p>Winings : {Math.round(allWinings)} </p>
                 <p>Stake : {totalStake}</p>
                 <p>Stake per combination {Number(totalStake / data.length).toFixed(2)}</p>
             </div>
