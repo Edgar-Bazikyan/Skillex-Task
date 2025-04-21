@@ -44,8 +44,12 @@ const BetsCalculator = () => {
                     result *= 1
                 }
             }
-            
-            setAllWinings(prev => prev + (Number((result * (totalStake / combArray.length)).toFixed(2))))
+            const resaultValue = Number((result * (totalStake / combArray.length)).toFixed(2))
+            if (resaultValue < 0){
+                setAllWinings(0)
+            }else{
+            setAllWinings(prev => prev + resaultValue)
+            }
         })
     }
     
@@ -70,23 +74,7 @@ const BetsCalculator = () => {
         combine(0, [])
         return result
     }
-    // const factorial = (n) => {
-    //     if (n < 0) {
-    //         return "Undefined";
-    //     }
-    //     if (n === 0 || n ===1) {
-    //         return 1;
-    //     }
-    //     return n * factorial(n - 1);       
 
-    // }
-
-    // const calculateCombinatorics = () => {
-
-    //     const result = factorial(objC.n) / (factorial(objC.n - objC.k) * factorial(objC.k))
-    //     return result
-    
-    // }
     return(
         <div className={styles['main-div']}>
             <div className={styles['upper-div']}>

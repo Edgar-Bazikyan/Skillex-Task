@@ -5,7 +5,6 @@ import styles from "./OddsList.module.css"
 
 const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, oddsStatus, setOddsStatus}) => {
 
-    console.log(oddsObject)
     const arr = new Array(odds).fill(0)
     
     useEffect(() => {
@@ -21,12 +20,13 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
     }, [odds])
     const changeHandler = (event) => {
         const {name ,value} = event.target
+        console.log(value)
         if(name === 'stack'){
            setTotalStake(value)
         }else {
             setOddsObj((prevState) => ({
                 ...prevState,
-                [name]: value,
+                [name]: Number(value),
             }))
         }
     }
@@ -46,13 +46,13 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
             <div className={styles['odds-list']}>
                 {arr.map((item, index) => (
                     <div key={index} className={styles['odds-item']}>
-                        odds {index + 1}:
+                        Odds {index + 1}:
                         <input type="text"
                         name={`odds${index + 1}`}
-                        value={oddsObject[`odds${index + 1}`] || ''}
+                        value={oddsObject[`odds${index + 1}`] ||'' }
                         onChange={changeHandler}
                         /> 
-                        <label>
+                        <label className={styles['radio-label']}>
                             Correct
                         </label>
                         <input
@@ -62,7 +62,7 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
                         checked={oddsStatus[`${index + 1}`] === 'Correct'}
                         onChange={handleRadioChange}
                         />
-                        <label>
+                        <label className={styles['radio-label']}>
                             Incorrect
                         </label>
                         <input
@@ -72,8 +72,8 @@ const OddsList = ({odds, totalStake, setTotalStake, oddsObject, setOddsObj, odds
                         checked={oddsStatus[`${index + 1}`] === 'Incorrect'}
                         onChange={handleRadioChange}
                         />
-                        <label>
-                            void
+                        <label className={styles['radio-label']}>
+                            Void
                         </label>
                         <input
                         type="radio"

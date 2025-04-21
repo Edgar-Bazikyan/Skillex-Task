@@ -21,6 +21,9 @@ const BetsResultTable = ({data, oddsObject, oddsStatus, totalStake, allWinings})
     const winingsFunc = (item) => {
         const sub = checkStatusAndSub(item)
         const result = Number((sub * (totalStake / data.length)).toFixed(2))
+        if (result < 0){
+            return 0
+        }
         return result
 
     }
@@ -35,7 +38,7 @@ const BetsResultTable = ({data, oddsObject, oddsStatus, totalStake, allWinings})
 
     return(
         <div>
-            <table>
+            <table className={styles['results-table']}> 
                 <thead>
                     <tr>
                         <th>N</th>
@@ -63,7 +66,7 @@ const BetsResultTable = ({data, oddsObject, oddsStatus, totalStake, allWinings})
             <div>
                 <p>Winings : {Math.round(allWinings)} </p>
                 <p>Stake : {totalStake}</p>
-                <p>Stake per combination {Number(totalStake / data.length).toFixed(2)}</p>
+                <p>Stake per combination {Number(totalStake / data.length).toFixed(2) < 0 ? 0 : Number(totalStake / data.length).toFixed(2) }</p>
             </div>
         </div>
     )

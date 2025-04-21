@@ -3,6 +3,9 @@
     flex-direction: column;
     width: calc(40vw - 10px);
 }
-/* .total-stake-div{
-    
-} */
+.radio-label {
+    margin-left: 10px;
+}
+.odds-list{
+    margin-top: 10px;
+}
